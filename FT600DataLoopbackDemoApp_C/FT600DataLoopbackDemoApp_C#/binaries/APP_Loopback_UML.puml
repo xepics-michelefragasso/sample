@@ -1,0 +1,33 @@
+@startuml
+class Loopback {
+    - Params[] arrayParams
+    - byte bNumChannels
+    - string fileDirectory
+    - const string szDirectoryName = "FT600DataLoopback_Output"
+    - bool bDeleteFiles
+
+    + Loopback(byte _bNumChannels)
+    + void Begin(byte bChannelIndex, bool bDeleteFilesAfterVerification)
+    + void End(byte bChannelIndex, bool bPreserveFiles)
+    + string GetFileName(byte bChannelIndex, bool bWrite)
+    + string GetFileDirectory()
+    + bool IsLoopbackComplete(byte bChannelIndex, byte bPipe)
+    + void AddBytesTransferred(byte bChannelIndex, bool bWrite, UInt32 ulBytesTransferred)
+    + void ClearBytesTransferred(byte bChannelIndex)
+    + static void GenerateData(byte[] bBuffer)
+    + bool VerifyFiles(byte bChannelIndex)
+    - bool CompareHash(byte[] hashWrite, byte[] hashRead)
+    - void DeleteFiles(byte bChannelIndex)
+}
+
+class Params {
+    + UInt32 ulNumBytesWritten
+    + UInt32 ulNumBytesRead
+    + string fileNameWrite
+    + string fileNameRead
+    + bool bStarted
+    + bool bMismatch
+}
+
+Loopback "1" *-- "Params" : contains
+@enduml
